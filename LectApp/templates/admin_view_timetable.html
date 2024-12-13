@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <style>
+        .timetable-card {
+            height: 100%;
+            margin-bottom: 20px;
+        }
+        .unit-header {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'admin_timetables' %}">Back</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2 class="mb-4">Timetable for {{ lecturer.names }}</h2>
+        
+        <div class="row">
+            {% for timetable in timetables %}
+                <div class="col-md-4">
+                    <div class="card timetable-card">
+                        <div class="card-body">
+                            <div class="unit-header mb-3">
+                                <h5 class="card-title mb-0">{{ timetable.unit_code }}</h5>
+                                <p class="card-text text-muted mb-0">{{ timetable.unit_name }}</p>
+                            </div>
+                            <p class="card-text"><strong>Day:</strong> {{ timetable.day }}</p>
+                            <p class="card-text"><strong>Time:</strong> 
+                                {% if timetable.start_time and timetable.end_time %}
+                                    {{ timetable.start_time|time:"H:i" }} - {{ timetable.end_time|time:"H:i" }}
+                                {% else %}
+                                    Not specified
+                                {% endif %}
+                            </p>
+                            <p class="card-text"><strong>Venue:</strong> {{ timetable.room|default:"Not specified" }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        No timetables found for {{ lecturer.names }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Lecturer Timetables</h2>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Lecturer Name</th>
+                    <th>Faculty</th>
+                    <th>Timetables</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lecturer in lecturers %}
+                <tr>
+                    <td>{{ lecturer.names }}</td>
+                    <td>{{ lecturer.faculty }}</td>
+                    <td>
+                        {% for timetable in lecturer.timetable_set.all %}
+                        <div class="mb-2">
+                            <strong>{{ timetable.unit_code }}</strong> - {{ timetable.unit_name }}<br>
+                            <small class="text-muted">
+                                {{ timetable.time|date:"l, F j, Y" }} at {{ timetable.time|time:"g:i A" }}<br>
+                                Venue: {{ timetable.venue }}
+                            </small>
+                        </div>
+                        {% empty %}
+                        <span class="text-muted">No timetables yet</span>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="{% url 'add_timetable' lecturer.id %}" 
+                           class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus"></i> Add Timetable
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

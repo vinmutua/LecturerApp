@@ -1,0 +1,83 @@
+<!-- LectApp/Templates/lecturerpage.html -->
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="#">Lecture System</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">
+                        <i class="fas fa-user-circle me-2"></i>
+                        Welcome, {{ lecturer.names }}
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="text-center mb-4">
+                                <i class="fas fa-user-tie fa-5x text-primary"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <h5 class="card-title text-primary">Lecturer Details</h5>
+                            <div class="mb-3">
+                                <i class="fas fa-university text-primary me-2"></i>
+                                <strong>Faculty:</strong> {{ lecturer.faculty }}
+                            </div>
+                            <div class="mb-3">
+                                <i class="fas fa-envelope text-primary me-2"></i>
+                                <strong>Email:</strong> {{ lecturer.user.email }}
+                            </div>
+                            <div class="mt-4">
+                                <a href="#" class="btn btn-primary me-2">
+                                    <i class="fas fa-calendar-alt me-2"></i>View Schedule
+                                </a>
+                                <a href="#" class="btn btn-outline-primary">
+                                    <i class="fas fa-cog me-2"></i>Settings
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Font Awesome for icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+<!-- Add custom CSS -->
+<style>
+    .card {
+        border-radius: 15px;
+        border: none;
+    }
+    .card-header {
+        border-radius: 15px 15px 0 0 !important;
+    }
+    .shadow {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    }
+</style>
+{% endblock %}

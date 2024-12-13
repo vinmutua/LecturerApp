@@ -1,0 +1,39 @@
+<!-- LectApp/Templates/adminpage.html -->
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="container mt-4">
+   
+
+    <form method="POST" action="{% url 'add_lecturer' %}" class="centered-form">
+        {% csrf_token %}
+        <h2 class="text-center mb-4">{% if lecture %}Update{% else %}Add{% endif %} Lecturer</h2>
+        <div class="mb-3">
+            <label for="names" class="form-label">Full Names</label>
+            <input type="text" class="form-control" id="names" name="names" value="{{ form_data.names }}" placeholder="Full Names" required>
+        </div>
+        <div class="mb-3">
+            <label for="username" class="form-label">@Username</label>
+            <input type="text" 
+                   name="username" 
+                   value="{{ form_data.username }}"
+                   class="form-control" 
+                   required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ form_data.email }}" placeholder="Email" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">{% if lecture %}New Password{% else %}Password{% endif %}</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Leave blank to keep current password">
+        </div>
+        <div class="mb-3">
+            <label for="faculty" class="form-label">Faculty</label>
+            <input type="text" class="form-control" id="faculty" name="faculty" value="{{ form_data.faculty }}" placeholder="Faculty" required>
+        </div>
+        <button type="submit" class="btn btn-primary">{% if lecture %}Update{% else %}Save{% endif %}</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Add Timetable for {{ lecturer.names }}</h2>
+    
+    <form method="POST" action="{% url 'add_timetable' lecturer.id %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="unitcode" class="form-label">Unit Code</label>
+            <input type="text" class="form-control" id="unitcode" name="unitcode" required>
+        </div>
+        <div class="mb-3">
+            <label for="unitname" class="form-label">Unit Name</label>
+            <input type="text" class="form-control" id="unitname" name="unitname" required>
+        </div>
+        <div class="mb-3">
+            <label for="venue" class="form-label">Venue</label>
+            <input type="text" class="form-control" id="venue" name="venue" required>
+        </div>
+        <div class="mb-3">
+            <label for="time" class="form-label">Time</label>
+            <input type="datetime-local" class="form-control" id="time" name="time" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="{% url 'admin_timetables' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

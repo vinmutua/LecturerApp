@@ -1,0 +1,108 @@
+<!-- LectApp/Templates/view_timetable.html -->
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Timetables - {{ lecturer.names }}</title>
+    {% bootstrap_css %}
+    <style>
+        .timetable-card {
+            height: 100%;
+            margin-bottom: 20px;
+        }
+        .unit-header {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar with conditional link -->
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            {% if request.session.lecturer_id %}
+                <a class="navbar-brand" href="{% url 'lecturer_page' %}">Back</a>
+            {% else %}
+                <a class="navbar-brand" href="{% url 'admin_timetables' %}">Back</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Lecturer Info -->
+    <div class="container mt-4">
+        <h2>Timetables for {{ lecturer.names }}</h2>
+        <p>Faculty: {{ lecturer.faculty }}</p>
+    </div>
+
+    <!-- Timetables Grid -->
+    <div class="container mt-4">
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for timetable in timetables %}
+            <div class="col">
+                <div class="card timetable-card">
+                    <div class="card-body">
+                        <div class="unit-header mb-3">
+                            <h4 class="card-title">{{ timetable.unit_code }}</h4>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ timetable.unit_name }}</h6>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <strong>Venue:</strong> {{ timetable.venue }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Time:</strong> {{ timetable.time|date:"l, F j, Y" }} at {{ timetable.time|time:"g:i A" }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    No timetables available for this lecturer.
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="row">
+            {% if timetables %}
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Unit Code</th>
+                            <th>Unit Name</th>
+                            <th>Day</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Room</th>
+                            <th>Venue</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for timetable in timetables %}
+                        <tr>
+                            <td>{{ timetable.unit_code }}</td>
+                            <td>{{ timetable.unit_name }}</td>
+                            <td>{{ timetable.day }}</td>
+                            <td>{{ timetable.start_time }}</td>
+                            <td>{{ timetable.end_time }}</td>
+                            <td>{{ timetable.room }}</td>
+                            <td>{{ timetable.venue }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No timetables found for this lecturer.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    {% bootstrap_javascript %}
+</body>
+</html>
